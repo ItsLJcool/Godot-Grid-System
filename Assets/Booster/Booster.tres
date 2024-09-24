@@ -1,0 +1,31 @@
+[gd_resource type="SpriteFrames" load_steps=5 format=3 uid="uid://v4eepae1o21v"]
+
+[ext_resource type="Texture2D" uid="uid://bttroow12sqs2" path="res://Assets/Booster/Booster2.png" id="1_6jf86"]
+[ext_resource type="Texture2D" uid="uid://bfec000jvryu1" path="res://Assets/Booster/Booster3.png" id="2_2w2rt"]
+[ext_resource type="Texture2D" uid="uid://bexrocin573j7" path="res://Assets/Booster/Booster4.png" id="3_f1k5v"]
+[ext_resource type="Texture2D" uid="uid://db7ppeukoplm7" path="res://Assets/Booster/Booster1.png" id="4_cer40"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.5,
+"texture": ExtResource("1_6jf86")
+}, {
+"duration": 1.5,
+"texture": ExtResource("2_2w2rt")
+}, {
+"duration": 1.5,
+"texture": ExtResource("3_f1k5v")
+}],
+"loop": true,
+"name": &"anim",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_cer40")
+}],
+"loop": true,
+"name": &"still",
+"speed": 5.0
+}]

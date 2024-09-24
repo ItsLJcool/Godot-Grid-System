@@ -1,9 +1,12 @@
-[gd_scene load_steps=5 format=4 uid="uid://ckbbw7fuqpmel"]
+[gd_scene load_steps=8 format=4 uid="uid://ckbbw7fuqpmel"]
 
 [ext_resource type="PackedScene" uid="uid://cr6agib8ngtlg" path="res://Scenes/Player.tscn" id="1_547cr"]
 [ext_resource type="TileSet" uid="uid://cmsv26kv5susb" path="res://TileSet/temp_tileset.tres" id="1_oryf1"]
 [ext_resource type="PackedScene" uid="uid://diptveir4qnpk" path="res://Scenes/Yarn.tscn" id="3_ehydc"]
 [ext_resource type="PackedScene" uid="uid://bu0unq81b2vgf" path="res://Scenes/Button.tscn" id="4_8rthj"]
+[ext_resource type="PackedScene" uid="uid://bhr5l51d1esfh" path="res://Scenes/Door.tscn" id="5_qe0pr"]
+[ext_resource type="Texture2D" uid="uid://dqngkc35kxuft" path="res://Assets/Button/Door.png" id="6_axhvn"]
+[ext_resource type="PackedScene" uid="uid://d8p2oqx05gv4" path="res://Scenes/Booster.tscn" id="7_q8486"]
 
 [node name="TestGrid" type="Node2D"]
 
@@ -24,7 +27,7 @@ position = Vector2(384, 0)
 TileLayer = NodePath("../TileMapLayer")
 
 [node name="Yarn3" parent="." node_paths=PackedStringArray("TileLayer") instance=ExtResource("3_ehydc")]
-position = Vector2(-256, 256)
+position = Vector2(-640, 0)
 TileLayer = NodePath("../TileMapLayer")
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -32,6 +35,18 @@ position = Vector2(254, 91)
 zoom = Vector2(0.5, 0.5)
 
 [node name="Button" parent="." node_paths=PackedStringArray("TileLayer") instance=ExtResource("4_8rthj")]
-position = Vector2(-512, 256)
+position = Vector2(-384, 0)
+move_speed = 0
 OBJECT_TYPE = 2
+TileLayer = NodePath("../TileMapLayer")
+
+[node name="Door" parent="." node_paths=PackedStringArray("ButtonReference", "TileLayer") instance=ExtResource("5_qe0pr")]
+position = Vector2(-256, -256)
+ClosedTexture = ExtResource("6_axhvn")
+ButtonReference = NodePath("../Button")
+DOOR_STATE = 1
+TileLayer = NodePath("../TileMapLayer")
+
+[node name="Booster" parent="." node_paths=PackedStringArray("TileLayer") instance=ExtResource("7_q8486")]
+position = Vector2(-384, 512)
 TileLayer = NodePath("../TileMapLayer")

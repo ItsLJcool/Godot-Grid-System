@@ -2,6 +2,10 @@
 
 extends "res://Scripts/BaseObject.gd"
 
+class_name ButtonCustom
+
+signal on_button_push(pushed:bool)
+
 @export var ButtonNormal:Texture
 @export var ButtonPushed:Texture
 
@@ -10,6 +14,7 @@ extends "res://Scripts/BaseObject.gd"
 var pushed:bool = false:
 	set(value):
 		pushed = value;
+		on_button_push.emit(pushed)
 		if ButtonSpr:
 			ButtonSpr.texture = ButtonNormal if !pushed else ButtonPushed
 
@@ -25,8 +30,6 @@ func _process(delta: float) -> void:
 	pass
 
 func on_object_move(directon:Vector2, object:BaseObject):
-	print("on_object_move button");
-	super(directon, object);
 	if object.GRID_POSITION == GRID_POSITION:
 		pushed = true
 		return

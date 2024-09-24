@@ -6,6 +6,10 @@ class_name BaseObject
 
 @export var move_speed:int = 15
 
+var extra = {
+	
+}
+
 enum ObjectType {
 	IMMOVABLE,
 	MOVABLE,
@@ -74,7 +78,7 @@ func _process(delta: float) -> void:
 		position = target_position
 		return
 	
-	position = move_towards_target(position, target_position, move_speed)
+	position = lerp(position, target_position, delta*move_speed)
 
 func move_towards_target(current_position: Vector2, target_position: Vector2, speed: float) -> Vector2:
 	var direction = (target_position - current_position).normalized()
@@ -158,7 +162,6 @@ func ice_move(direction:Vector2, pos:int, properties:Array):
 				continue
 			if object.GRID_POSITION == GRID_POSITION:
 				if object.current_object_type != ObjectType.IMMOVABLE and object.current_object_type != ObjectType.PASSABLE:
-					print("ice move")
 					object.move(dir)
 					object.move(Vector2.ZERO)
 					_break = true

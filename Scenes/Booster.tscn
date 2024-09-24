@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://d8p2oqx05gv4"]
+
+[ext_resource type="SpriteFrames" uid="uid://v4eepae1o21v" path="res://Assets/Booster/Booster.tres" id="1_5k2fa"]
+[ext_resource type="Script" path="res://Scripts/Booster.gd" id="1_5muga"]
+
+[node name="Booster" type="Node2D"]
+script = ExtResource("1_5muga")
+
+[node name="BoosterSpr" type="AnimatedSprite2D" parent="."]
+position = Vector2(64, 64)
+sprite_frames = ExtResource("1_5k2fa")
+animation = &"anim"
+autoplay = "anim"
+frame_progress = 0.0324609
