@@ -1,0 +1,19 @@
+[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://cmsv26kv5susb"]
+
+[ext_resource type="Texture2D" uid="uid://jsba3uoxvjus" path="res://TileSet/Tileset_5.png" id="1_vttko"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_3fexw"]
+texture = ExtResource("1_vttko")
+texture_region_size = Vector2i(128, 128)
+0:7/0 = 0
+0:7/0/custom_data_0 = true
+0:0/0 = 0
+0:0/0/custom_data_1 = true
+
+[resource]
+tile_size = Vector2i(128, 128)
+custom_data_layer_0/name = "wall"
+custom_data_layer_0/type = 1
+custom_data_layer_1/name = "ice"
+custom_data_layer_1/type = 1
+sources/0 = SubResource("TileSetAtlasSource_3fexw")
