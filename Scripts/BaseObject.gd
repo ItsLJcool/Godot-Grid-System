@@ -109,6 +109,8 @@ func move(direction:Vector2, properties:Array = _properties_default):
 	
 	if properties.has(MoveProperties.CHECK_TILE):
 		tile_handle(direction, properties)
+		
+	#Global.on_object_move.emit(direction, self)
 
 var moving_on_ice:bool = false
 func tile_handle(direction:Vector2, properties:Array):
@@ -155,9 +157,12 @@ func ice_move(direction:Vector2, pos:int, properties:Array):
 			if object == self:
 				continue
 			if object.GRID_POSITION == GRID_POSITION:
-				object.move(dir)
-				_break = true
-				break;
+				if object.current_object_type != ObjectType.IMMOVABLE and object.current_object_type != ObjectType.PASSABLE:
+					print("ice move")
+					object.move(dir)
+					object.move(Vector2.ZERO)
+					_break = true
+					break;
 		if _break:
 			break;
 
@@ -177,7 +182,6 @@ func do_ice_calculation(additional_direction:Vector2) -> Vector2:
 		final_calculation += additional_direction
 		grid_calc = GRID_POSITION + final_calculation
 		ice_customData = TileLayer.get_cell_tile_data(GRID_POSITION + final_calculation)
-	print("final_calculation: ", final_calculation)
 	return final_calculation
 
 func force_to_target():

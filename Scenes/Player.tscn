@@ -4,8 +4,11 @@
 [ext_resource type="Texture2D" uid="uid://bh14oh4lee8g6" path="res://icon.svg" id="2_eitrw"]
 
 [node name="Player" type="Node2D"]
+z_index = 4096
+z_as_relative = false
 script = ExtResource("1_yoxhr")
 
 [node name="Icon" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.47451)
 texture = ExtResource("2_eitrw")
 centered = false

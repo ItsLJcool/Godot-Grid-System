@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://bu7kpyokj32t" path="res://Assets/Yarn.png" id="2_yaucv"]
 
 [node name="Yarn" type="Node2D"]
+z_index = 1
 script = ExtResource("1_i3idr")
 
 [node name="Yarn" type="Sprite2D" parent="."]
