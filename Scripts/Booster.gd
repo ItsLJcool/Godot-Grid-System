@@ -53,8 +53,7 @@ func _process(delta: float) -> void:
 	super(delta)
 
 func on_object_move(directon:Vector2, object:BaseObject):
-	if !object.extra.wasBoosted.exists():
-		object.extra.wasBoosted = false
+	object.extra.wasBoosted = false
 	
 	if object.GRID_POSITION == GRID_POSITION and not object.extra.wasBoosted:
 		object.extra.wasBoosted = true
