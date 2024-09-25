@@ -10,13 +10,17 @@ enum DoorType {
 	LOCKED
 }
 
+@onready var DoorSpr:Sprite2D = $DoorSpr
+
+func on_color_type_change(value):
+	super(value)
+	node_shader_to_color(DoorSpr, COLOR_VALUES.get(color_type_to_string()))
+
 @export var ClosedTexture:Texture
 @export var OpenedTexture:Texture
 @export var LockedTexture:Texture
 
 @export var ButtonReference:ButtonCustom
-
-@onready var DoorSpr:Sprite2D = $DoorSpr
 
 @export var DOOR_STATE:DoorType = DoorType.CLOSED:
 	set(value):
@@ -34,6 +38,7 @@ enum DoorType {
 					DoorSpr.texture = ClosedTexture
 
 func _ready() -> void:
+	node_shader_to_color(DoorSpr, COLOR_VALUES.get(color_type_to_string()))
 	super()
 	if ButtonReference:
 		ButtonReference.connect("on_button_push", on_button_push)

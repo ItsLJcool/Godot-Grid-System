@@ -4,6 +4,12 @@ extends "res://Scripts/BaseObject.gd"
 
 class_name Booster
 
+@onready var BoosterSpr:AnimatedSprite2D = $BoosterSpr
+
+func on_color_type_change(value):
+	super(value)
+	node_shader_to_color(BoosterSpr, COLOR_VALUES.get(color_type_to_string(value)))
+
 enum Direction {
 	LEFT = 0,
 	DOWN = 1,
@@ -21,13 +27,6 @@ func dir_to_vector(dir:Direction = BOOSTER_DIRECTION):
 			return Vector2.UP
 		Direction.RIGHT:
 			return Vector2.RIGHT
-
-@onready var BoosterSpr:AnimatedSprite2D = $BoosterSpr
-
-#@export var ColorType:Player.Type = Player.Type.Yellow:
-	#set(value):
-		#ColorType = value;
-		#init_booster();
 
 @export var BOOSTER_DIRECTION:Direction = Direction.RIGHT:
 	set(value):
@@ -48,6 +47,8 @@ func dir_booster():
 
 func _ready() -> void:
 	super()
+	OBJECT_TYPE = ObjectType.PASSABLE
+	dir_booster()
 
 func _process(delta: float) -> void:
 	super(delta)

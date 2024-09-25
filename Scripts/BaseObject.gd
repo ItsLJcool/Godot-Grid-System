@@ -5,10 +5,12 @@ extends Node2D
 class_name BaseObject
 
 enum ColorType {
-	Yellow = 0,
-	Cyan = 1,
-	Red = 2,
-	Pink = 3, #Pinkj... lol
+	White = 0,
+	Yellow = 1,
+	Cyan = 2,
+	Red = 3,
+	Pink = 4, #Pinkj... lol
+	Black = 5,
 }
 
 @export var move_speed:int = 15
@@ -16,10 +18,27 @@ enum ColorType {
 @export var COLOR_TYPE:ColorType = ColorType.Yellow:
 	set(value):
 		COLOR_TYPE = value
-		on_color_type_change(value)
-	
+		on_color_type_change(COLOR_TYPE)
+
+func node_shader_to_color(node:Node2D, color:Color):
+	if node:
+		if node.material:
+			node.material.set_shader_parameter("r", color)
+
+static var COLOR_VALUES:Dictionary = {
+	"White": Color(0.878, 0.878, 0.878), #e0e0e0
+	"Yellow": Color(0.875, 0.592, 0.149), #df9726
+	"Cyan": Color(0.094, 0.773, 0.804), #18c5cd
+	"Red": Color(0.827, 0, 0), #d30000
+	"Pink": Color(0.882, 0, 0.537), #e10089
+	"Black": Color(0.263, 0.263, 0.263), #434343
+}
+
 func color_type_to_string(type:ColorType = COLOR_TYPE):
-	return ColorType.keys()[type].capitalize()
+	if type >= len(ColorType.keys()):
+		type = len(ColorType.keys()) - 1
+	var output = ColorType.keys()[type].capitalize()
+	return output
 
 func on_color_type_change(value):
 	pass
@@ -49,7 +68,17 @@ func get_all(node):
 			data.push_back(n)
 	return data;
 
-@export var TileLayer:TileMapLayer
+static var _instanced_tile_layer:TileMapLayer
+
+@export var TileLayer:TileMapLayer:
+	set(value):
+		TileLayer = value
+		_instanced_tile_layer = TileLayer
+	get:
+		if TileLayer == null:
+			return BaseObject._instanced_tile_layer
+		else:
+			return TileLayer
 
 var tile_size:Vector2i:
 	get:
@@ -79,6 +108,13 @@ var GRID_POSITION:Vector2:
 			return GRID_POSITION;
 
 func _ready() -> void:
+	on_color_type_change(COLOR_TYPE)
+	for all_grid_pos in TileLayer.get_used_cells():
+		var _data = TileLayer.get_cell_tile_data(all_grid_pos)
+		var _color = _data.get_custom_data("ColorType")
+		if _data.material != null:
+			_data.material.set_shader_parameter("r", COLOR_VALUES.get(color_type_to_string(_color)))
+	
 	Global.connect("on_object_move", on_object_move)
 	Global.connect("force_to_target", force_to_target)
 	target_position = position
@@ -195,7 +231,7 @@ func ice_calc(direction:Vector2) -> Vector2:
 	return final_calc
 
 func get_allow_walk(data):
-		return not data.get_custom_data("wall")
+		return data.get_custom_data("ColorType") == COLOR_TYPE or COLOR_TYPE == 0
 
 func force_to_target():
 	position = target_position
@@ -206,8 +242,13 @@ func on_object_move(directon:Vector2, properties:Array, object:BaseObject):
 	
 	# Ice Physics fix
 	var customData = TileLayer.get_cell_tile_data(GRID_POSITION - directon)
+	
+	if object.COLOR_TYPE != COLOR_TYPE:
+		current_object_type = ObjectType.IMMOVABLE
+	
 	if customData:
-		properties = properties.filter(func(item): return item != MoveProperties.ALLOW_SLIDING)
+		if customData.get_custom_data("ice"):
+			properties = properties.filter(func(item): return item != MoveProperties.ALLOW_SLIDING)
 	
 	if current_object_type == ObjectType.IMMOVABLE:
 		if object.GRID_POSITION == GRID_POSITION:

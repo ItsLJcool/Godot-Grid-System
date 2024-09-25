@@ -1,15 +1,32 @@
-[gd_scene load_steps=3 format=3 uid="uid://cr6agib8ngtlg"]
+[gd_scene load_steps=6 format=3 uid="uid://cr6agib8ngtlg"]
 
 [ext_resource type="Script" path="res://Scripts/Player.gd" id="1_yoxhr"]
-[ext_resource type="Texture2D" uid="uid://bh14oh4lee8g6" path="res://icon.svg" id="2_eitrw"]
+[ext_resource type="Texture2D" uid="uid://cg6d4ehefruaj" path="res://Assets/Player/Yellow_Cat.png" id="2_g7a6r"]
+[ext_resource type="Texture2D" uid="uid://bpde64rone8p2" path="res://Assets/Player/Cyan_Cat.png" id="3_bwrvo"]
+[ext_resource type="Texture2D" uid="uid://bpw80p3t53blf" path="res://Assets/Player/Red_Cat.png" id="4_37u1n"]
+[ext_resource type="Texture2D" uid="uid://cwnob450loe3e" path="res://Assets/Player/Pinkj_Cat.png" id="5_bjdc3"]
 
-[node name="Player" type="Node2D"]
+[node name="Player" type="Node2D" node_paths=PackedStringArray("TileLayer")]
 z_index = 4096
 z_as_relative = false
 script = ExtResource("1_yoxhr")
-COLOR_TYPE = null
+Yellow = ExtResource("2_g7a6r")
+Cyan = ExtResource("3_bwrvo")
+Red = ExtResource("4_37u1n")
+Pink = ExtResource("5_bjdc3")
+TileLayer = NodePath("")
 
-[node name="Icon" type="Sprite2D" parent="."]
-modulate = Color(1, 1, 1, 0.47451)
-texture = ExtResource("2_eitrw")
+[node name="Cat" type="Sprite2D" parent="."]
+texture = ExtResource("2_g7a6r")
 centered = false
+
+[node name="NewScene_InputDelay" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="NewScene_MoveDelay" type="Timer" parent="."]
+wait_time = 0.15
+one_shot = true
+
+[connection signal="timeout" from="NewScene_InputDelay" to="." method="_on_new_scene_input_delay_timeout"]
+[connection signal="timeout" from="NewScene_MoveDelay" to="." method="_on_new_scene_move_delay_timeout"]

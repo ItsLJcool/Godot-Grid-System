@@ -1,0 +1,31 @@
+[gd_resource type="SpriteFrames" load_steps=5 format=3 uid="uid://bpun4enhgtecs"]
+
+[ext_resource type="Texture2D" uid="uid://ddbqmhncabmxr" path="res://Assets/Conveyer/Convyor side1.png" id="1_anel5"]
+[ext_resource type="Texture2D" uid="uid://bkpj4cgr482s3" path="res://Assets/Conveyer/Convyor side2.png" id="2_tw6p5"]
+[ext_resource type="Texture2D" uid="uid://d3lfnhmgdlatg" path="res://Assets/Conveyer/Convyor up2.png" id="3_3s65a"]
+[ext_resource type="Texture2D" uid="uid://ct7plfpts1icv" path="res://Assets/Conveyer/Convyor Up.png" id="4_6iah2"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_anel5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_tw6p5")
+}],
+"loop": true,
+"name": &"horizontal",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_3s65a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_6iah2")
+}],
+"loop": true,
+"name": &"vertical",
+"speed": 10.0
+}]

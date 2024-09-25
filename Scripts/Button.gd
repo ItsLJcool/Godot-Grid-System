@@ -6,10 +6,14 @@ class_name ButtonCustom
 
 signal on_button_push(pushed:bool)
 
+@onready var ButtonSpr:Sprite2D = $ButtonSpr
+
+func on_color_type_change(value):
+	super(value)
+	node_shader_to_color(ButtonSpr, COLOR_VALUES.get(color_type_to_string(value)))
+
 @export var ButtonNormal:Texture
 @export var ButtonPushed:Texture
-
-@onready var ButtonSpr:Sprite2D = $ButtonSpr
 
 var pushed:bool = false:
 	set(value):
@@ -21,6 +25,7 @@ var pushed:bool = false:
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	super()
+	OBJECT_TYPE = ObjectType.PASSABLE
 	pass # Replace with function body.
 
 
