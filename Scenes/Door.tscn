@@ -11,6 +11,7 @@ ClosedTexture = ExtResource("2_verp4")
 OpenedTexture = ExtResource("3_esuw8")
 LockedTexture = ExtResource("2_verp4")
 move_speed = 0
+COLOR_TYPE = null
 OBJECT_TYPE = 0
 
 [node name="DoorSpr" type="Sprite2D" parent="."]

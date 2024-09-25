@@ -52,12 +52,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	super(delta)
 
-func on_object_move(directon:Vector2, object:BaseObject):
-	object.extra.wasBoosted = false
-	
-	if object.GRID_POSITION == GRID_POSITION and not object.extra.wasBoosted:
-		object.extra.wasBoosted = true
+func on_object_move(directon:Vector2, properties:Array, object:BaseObject):
+	if object.GRID_POSITION == GRID_POSITION:
 		object.move(dir_to_vector()*2)
 		return
-	else:
-		object.extra.wasBoosted = false

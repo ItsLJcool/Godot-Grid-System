@@ -29,7 +29,7 @@ func _process(delta: float) -> void:
 	super(delta)
 	pass
 
-func on_object_move(directon:Vector2, object:BaseObject):
+func on_object_move(directon:Vector2, properties:Array, object:BaseObject):
 	if object.GRID_POSITION == GRID_POSITION:
 		pushed = true
 		return

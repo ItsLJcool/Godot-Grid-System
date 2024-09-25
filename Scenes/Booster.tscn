@@ -5,6 +5,7 @@
 
 [node name="Booster" type="Node2D"]
 script = ExtResource("1_5muga")
+COLOR_TYPE = null
 
 [node name="BoosterSpr" type="AnimatedSprite2D" parent="."]
 position = Vector2(64, 64)

@@ -8,6 +8,7 @@
 script = ExtResource("1_dgonk")
 ButtonNormal = ExtResource("2_l0n2s")
 ButtonPushed = ExtResource("3_uron1")
+COLOR_TYPE = null
 
 [node name="ButtonSpr" type="Sprite2D" parent="."]
 texture = ExtResource("2_l0n2s")

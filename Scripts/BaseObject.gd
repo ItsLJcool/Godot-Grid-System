@@ -4,18 +4,33 @@ extends Node2D
 
 class_name BaseObject
 
+enum ColorType {
+	Yellow = 0,
+	Cyan = 1,
+	Red = 2,
+	Pink = 3, #Pinkj... lol
+}
+
 @export var move_speed:int = 15
 
-var extra = {
+@export var COLOR_TYPE:ColorType = ColorType.Yellow:
+	set(value):
+		COLOR_TYPE = value
+		on_color_type_change(value)
 	
-}
+func color_type_to_string(type:ColorType = COLOR_TYPE):
+	return ColorType.keys()[type].capitalize()
+
+func on_color_type_change(value):
+	pass
 
 enum ObjectType {
 	IMMOVABLE,
 	MOVABLE,
 	PASSABLE,
 }
-func type_to_string(type:ObjectType = current_object_type):
+
+func object_type_to_string(type:ObjectType = current_object_type):
 	return ObjectType.keys()[type].capitalize()
 
 @export var OBJECT_TYPE:ObjectType = ObjectType.MOVABLE:
@@ -89,12 +104,17 @@ func move_towards_target(current_position: Vector2, target_position: Vector2, sp
 
 enum MoveProperties {
 	ALLOW_SLIDING,
-	CHECK_TILE
+	CHECK_TILE,
+	IS_SLIDING,
+	EMIT_MOVE,
 }
+func moveType_to_string(type:MoveProperties = MoveProperties.ALLOW_SLIDING):
+	return MoveProperties.keys()[type].capitalize()
 
 var _properties_default:Array = [
 	MoveProperties.ALLOW_SLIDING,
-	MoveProperties.CHECK_TILE
+	MoveProperties.CHECK_TILE,
+	MoveProperties.EMIT_MOVE
 ];
 
 # indexes of all moves made, will cap it at some point
@@ -104,19 +124,18 @@ func do_step_move(idx:int):
 	pass
 
 func move(direction:Vector2, properties:Array = _properties_default):
-	_last_direction = direction
+	_last_direction = direction.normalized()
+		
 	prev_target_position = target_position
 	target_position.x += direction.x * tile_size.x
 	target_position.y += direction.y * tile_size.y
 	
-	Global.on_object_move.emit(direction, self)
-	
 	if properties.has(MoveProperties.CHECK_TILE):
-		tile_handle(direction, properties)
-		
-	#Global.on_object_move.emit(direction, self)
+		tile_handle(_last_direction, properties)
+	
+	if properties.has(MoveProperties.EMIT_MOVE):
+		Global.on_object_move.emit(_last_direction, properties, self)
 
-var moving_on_ice:bool = false
 func tile_handle(direction:Vector2, properties:Array):
 	if not TileLayer:
 		return
@@ -129,83 +148,72 @@ func tile_handle(direction:Vector2, properties:Array):
 		if not allowed_walk:
 			current_object_type = ObjectType.IMMOVABLE
 			move(-direction, [MoveProperties.CHECK_TILE])
-			return
 		
-		if customData.get_custom_data("ice") and properties.has(MoveProperties.ALLOW_SLIDING):
-			# Idea:
-			# We calculate the amount of direction here, instead of having the game do other calculations
-			# since it will perserve integrety of data... or smth idk not smart
-			# simple terms: fixes ice physics issues, hopefully.
-			# Future me: it did, but it introduced something I didn't expect, but can be put as a puzzle element now
-			# Further Future me: I re did all of that so not sure if that puzzle element will be a thing now :sob:
-			var no_sliding = properties.filter(func(item): return item != MoveProperties.ALLOW_SLIDING)
-			ice_move(do_ice_calculation(direction), 0, no_sliding)
-			ice_move(do_ice_calculation(direction), 1, no_sliding)
-			ice_mode = false
+		if customData.get_custom_data("ice") and properties.has(MoveProperties.ALLOW_SLIDING) and not properties.has(MoveProperties.IS_SLIDING):
+			var calc = ice_calc(direction)
+			if calc == Vector2.ZERO:
+				return
+			var _properties =  [MoveProperties.IS_SLIDING, MoveProperties.CHECK_TILE];
 			
-var ice_mode:bool = false
-func ice_move(direction:Vector2, pos:int, properties:Array):
-	ice_mode = true
-	var all_objects = get_all(get_tree().root)
-	var dir_x:int = direction.x if pos == 0 else direction.y
-	var vec_left_right:Array = [Vector2.LEFT, Vector2.RIGHT] if pos == 0 else [Vector2.UP, Vector2.DOWN]
-	var dir = vec_left_right[0] if dir_x < 0 else vec_left_right[1]
-	_last_direction = dir
-	for idx in abs(dir_x):
-		prev_target_position = target_position
-		target_position.x += dir.x * tile_size.x
-		target_position.y += dir.y * tile_size.y
-		tile_handle(dir, properties)
+			move(calc, _properties)
+
+func ice_calc(direction:Vector2) -> Vector2:
+		
+	for object in get_all(get_tree().root):
+		if object == self:
+			continue
+		if object.GRID_POSITION == GRID_POSITION:
+			object.move(direction)
+			return direction;
+	var _grid_position = GRID_POSITION + direction
+	var ice_data = TileLayer.get_cell_tile_data(_grid_position)
+	var final_calc:Vector2 = direction
+	while((ice_data and ice_data.get_custom_data("ice"))):
 		var _break:bool = false
-		for object in all_objects:
+		
+		for object in get_all(get_tree().root):
 			if object == self:
 				continue
-			if object.GRID_POSITION == GRID_POSITION:
-				if object.current_object_type != ObjectType.IMMOVABLE and object.current_object_type != ObjectType.PASSABLE:
-					object.move(dir)
-					object.move(Vector2.ZERO)
-					_break = true
-					break;
+			if object.GRID_POSITION == _grid_position:
+				_break = true
+				final_calc -= direction
+				object.move(direction)
+				break
+		
 		if _break:
 			break;
+		
+		final_calc += direction
+		_grid_position = GRID_POSITION + final_calc
+		ice_data = TileLayer.get_cell_tile_data(_grid_position)
+	_grid_position = GRID_POSITION + final_calc
+	ice_data = TileLayer.get_cell_tile_data(_grid_position)
+	if ice_data:
+		if not get_allow_walk(ice_data):
+			final_calc -= direction
+	
+	return final_calc
 
 func get_allow_walk(data):
 		return not data.get_custom_data("wall")
 
-func do_ice_calculation(additional_direction:Vector2) -> Vector2:
-	var final_calculation:Vector2 = Vector2.ZERO;
-	
-	if not TileLayer: # just to be safe
-		return final_calculation
-	
-	var grid_calc = GRID_POSITION
-	var ice_customData = TileLayer.get_cell_tile_data(GRID_POSITION)
-	var tempIDX:int = 0
-	while((ice_customData and ice_customData.get_custom_data("ice"))):
-		final_calculation += additional_direction
-		grid_calc = GRID_POSITION + final_calculation
-		ice_customData = TileLayer.get_cell_tile_data(GRID_POSITION + final_calculation)
-	return final_calculation
-
 func force_to_target():
 	position = target_position
 
-func on_object_move(directon:Vector2, object:BaseObject):
+func on_object_move(directon:Vector2, properties:Array, object:BaseObject):
 	if object == self:
 		return
+	
+	# Ice Physics fix
+	var customData = TileLayer.get_cell_tile_data(GRID_POSITION - directon)
+	if customData:
+		properties = properties.filter(func(item): return item != MoveProperties.ALLOW_SLIDING)
+	
 	if current_object_type == ObjectType.IMMOVABLE:
 		if object.GRID_POSITION == GRID_POSITION:
-			if ice_mode:
-				var no_sliding = _properties_default.filter(func(item): return item != MoveProperties.ALLOW_SLIDING)
-				object.move(-directon, no_sliding)
-			else:
-				object.move(-directon)
+			object.move(-directon, properties)
 	elif current_object_type == ObjectType.MOVABLE:
 		if object.GRID_POSITION == GRID_POSITION:
-			if ice_mode:
-				var no_sliding = _properties_default.filter(func(item): return item != MoveProperties.ALLOW_SLIDING)
-				move(directon, no_sliding)
-			else:
-				move(directon)
+			move(directon, properties)
 	
 	current_object_type = OBJECT_TYPE

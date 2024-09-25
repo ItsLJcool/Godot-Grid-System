@@ -6,6 +6,7 @@
 [node name="Yarn" type="Node2D"]
 z_index = 1
 script = ExtResource("1_i3idr")
+COLOR_TYPE = null
 
 [node name="Yarn" type="Sprite2D" parent="."]
 texture = ExtResource("2_yaucv")
