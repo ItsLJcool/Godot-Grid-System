@@ -143,6 +143,7 @@ enum MoveProperties {
 	CHECK_TILE,
 	IS_SLIDING,
 	EMIT_MOVE,
+	MIMIC
 }
 func moveType_to_string(type:MoveProperties = MoveProperties.ALLOW_SLIDING):
 	return MoveProperties.keys()[type].capitalize()
@@ -150,14 +151,11 @@ func moveType_to_string(type:MoveProperties = MoveProperties.ALLOW_SLIDING):
 var _properties_default:Array = [
 	MoveProperties.ALLOW_SLIDING,
 	MoveProperties.CHECK_TILE,
-	MoveProperties.EMIT_MOVE
+	MoveProperties.EMIT_MOVE,
 ];
 
 # indexes of all moves made, will cap it at some point
 var buffer_moves:Array = []
-
-func do_step_move(idx:int):
-	pass
 
 func move(direction:Vector2, properties:Array = _properties_default):
 	_last_direction = direction.normalized()
@@ -170,7 +168,8 @@ func move(direction:Vector2, properties:Array = _properties_default):
 		tile_handle(_last_direction, properties)
 	
 	if properties.has(MoveProperties.EMIT_MOVE):
-		Global.on_object_move.emit(_last_direction, properties, self)
+		if not Engine.is_editor_hint():
+			Global.on_object_move.emit(_last_direction, properties, self)
 
 func tile_handle(direction:Vector2, properties:Array):
 	if not TileLayer:
@@ -231,7 +230,7 @@ func ice_calc(direction:Vector2) -> Vector2:
 	return final_calc
 
 func get_allow_walk(data):
-		return data.get_custom_data("ColorType") == COLOR_TYPE or COLOR_TYPE == 0
+	return data.get_custom_data("ColorType") == COLOR_TYPE or COLOR_TYPE == ColorType.White or data.get_custom_data("ColorType") == ColorType.White
 
 func force_to_target():
 	position = target_position
@@ -240,15 +239,15 @@ func on_object_move(directon:Vector2, properties:Array, object:BaseObject):
 	if object == self:
 		return
 	
-	# Ice Physics fix
 	var customData = TileLayer.get_cell_tile_data(GRID_POSITION - directon)
 	
-	if object.COLOR_TYPE != COLOR_TYPE:
-		current_object_type = ObjectType.IMMOVABLE
-	
+	# Ice Physics fix
 	if customData:
 		if customData.get_custom_data("ice"):
 			properties = properties.filter(func(item): return item != MoveProperties.ALLOW_SLIDING)
+	
+	if object.COLOR_TYPE != COLOR_TYPE:
+		current_object_type = ObjectType.IMMOVABLE
 	
 	if current_object_type == ObjectType.IMMOVABLE:
 		if object.GRID_POSITION == GRID_POSITION:

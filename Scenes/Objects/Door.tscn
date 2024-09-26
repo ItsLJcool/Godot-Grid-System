@@ -9,7 +9,7 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qtqtm"]
 resource_local_to_scene = true
 shader = ExtResource("1_wnqaw")
-shader_parameter/r = Color(0.878, 0.878, 0.878, 1)
+shader_parameter/r = Color(0.875, 0.592, 0.149, 1)
 shader_parameter/g = Color(1, 1, 1, 1)
 shader_parameter/b = Color(1, 1, 1, 1)
 
@@ -19,7 +19,6 @@ ClosedTexture = ExtResource("2_verp4")
 OpenedTexture = ExtResource("3_esuw8")
 LockedTexture = ExtResource("2_verp4")
 move_speed = 0
-COLOR_TYPE = 0
 OBJECT_TYPE = 0
 TileLayer = NodePath("")
 

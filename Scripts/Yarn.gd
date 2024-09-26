@@ -2,11 +2,13 @@
 
 extends "res://Scripts/BaseObject.gd"
 
-@onready var Yarn:Sprite2D = $Yarn
+class_name Yarn
+
+@onready var spr:Sprite2D = $YarnSpr
 
 func on_color_type_change(value):
 	super(value)
-	node_shader_to_color(Yarn, COLOR_VALUES.get(color_type_to_string(value)))
+	node_shader_to_color(spr, COLOR_VALUES.get(color_type_to_string(value)))
 
 func _ready() -> void:
 	super()

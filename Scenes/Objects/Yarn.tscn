@@ -11,12 +11,12 @@ shader_parameter/r = Color(0.875, 0.592, 0.149, 1)
 shader_parameter/g = Color(1, 1, 1, 1)
 shader_parameter/b = Color(1, 1, 1, 1)
 
-[node name="Yarn" type="Node2D" node_paths=PackedStringArray("TileLayer")]
+[node name="YarnObj" type="Node2D" node_paths=PackedStringArray("TileLayer")]
 z_index = 1
 script = ExtResource("1_1elun")
 TileLayer = NodePath("")
 
-[node name="Yarn" type="Sprite2D" parent="."]
+[node name="YarnSpr" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_u6vvy")
 texture = ExtResource("2_yaucv")
 centered = false

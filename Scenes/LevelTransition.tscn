@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://d4il5lhwbt66h"]
+
+[node name="LevelTransition" type="Node2D"]
