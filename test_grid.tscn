@@ -16,14 +16,13 @@ tile_set = ExtResource("1_oryf1")
 position = Vector2(-768, 512)
 MOVE_DIRECTION_ON_START = Vector2(1, 0)
 TileLayer = NodePath("../TileMapLayer")
-_last_direction = Vector2(1, 0)
 
 [node name="Camera2D" type="Camera2D" parent="Important"]
 position = Vector2(254, 91)
 zoom = Vector2(0.5, 0.5)
 
 [node name="Yarn" parent="." node_paths=PackedStringArray("TileLayer") instance=ExtResource("3_ehydc")]
-position = Vector2(-256, 512)
+position = Vector2(-640, 512)
 COLOR_TYPE = 0
 TileLayer = NodePath("../Important/TileMapLayer")
 
@@ -32,7 +31,7 @@ position = Vector2(-768, 256)
 TileLayer = NodePath("../Important/TileMapLayer")
 
 [node name="Yarn3" parent="." node_paths=PackedStringArray("TileLayer") instance=ExtResource("3_ehydc")]
-position = Vector2(-512, 512)
+position = Vector2(-640, 384)
 COLOR_TYPE = 2
 TileLayer = NodePath("../Important/TileMapLayer")
 

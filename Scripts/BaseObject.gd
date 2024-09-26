@@ -89,15 +89,15 @@ var tile_size:Vector2i:
 var target_position:Vector2 = Vector2.ZERO:
 	set(value):
 		target_position = value;
-		if TileLayer:
+		if TileLayer != null:
 			GRID_POSITION = TileLayer.local_to_map(TileLayer.to_local(target_position))
 	get:
-		if TileLayer:
+		if TileLayer != null:
 			GRID_POSITION = TileLayer.local_to_map(TileLayer.to_local(target_position))
 		return target_position
 		
 var prev_target_position:Vector2 = Vector2.ZERO
-@export var _last_direction:Vector2 = Vector2.ZERO
+var _last_direction:Vector2 = Vector2.ZERO
 
 var GRID_POSITION:Vector2:
 	get:
@@ -230,7 +230,8 @@ func ice_calc(direction:Vector2) -> Vector2:
 	return final_calc
 
 func get_allow_walk(data):
-	return data.get_custom_data("ColorType") == COLOR_TYPE or COLOR_TYPE == ColorType.White or data.get_custom_data("ColorType") == ColorType.White
+	var is_bad = data.get_custom_data("ColorType") != ColorType.Black
+	return (is_bad) or COLOR_TYPE == ColorType.White or data.get_custom_data("ColorType") == ColorType.White
 
 func force_to_target():
 	position = target_position
@@ -246,8 +247,9 @@ func on_object_move(directon:Vector2, properties:Array, object:BaseObject):
 		if customData.get_custom_data("ice"):
 			properties = properties.filter(func(item): return item != MoveProperties.ALLOW_SLIDING)
 	
-	if object.COLOR_TYPE != COLOR_TYPE:
-		current_object_type = ObjectType.IMMOVABLE
+	if object.COLOR_TYPE != COLOR_TYPE and COLOR_TYPE != ColorType.White:
+		if object.COLOR_TYPE != ColorType.White:
+			current_object_type = ObjectType.IMMOVABLE
 	
 	if current_object_type == ObjectType.IMMOVABLE:
 		if object.GRID_POSITION == GRID_POSITION:
