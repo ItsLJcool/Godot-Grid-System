@@ -26,6 +26,8 @@ zoom = Vector2(0.625, 0.6)
 
 [node name="LevelTransition" parent="Important" instance=ExtResource("4_x0ctf")]
 position = Vector2(-1152, -512)
+LevelFileName = "Intro"
+NextLevel = "Level 4"
 
 [node name="ExitDoor" parent="." node_paths=PackedStringArray("ButtonReference", "TileLayer") instance=ExtResource("5_xrer7")]
 position = Vector2(-768, -512)

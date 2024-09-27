@@ -59,7 +59,7 @@ func object_type_to_string(type:ObjectType = current_object_type):
 var current_object_type:ObjectType = OBJECT_TYPE;
 
 # Gets all scenes or "nodes" of the class type.
-func get_all(node):
+static func get_all(node):
 	var data:Array = [];
 	if node is BaseObject:
 		data.push_back(node)
@@ -150,7 +150,7 @@ enum MoveProperties {
 	CHECK_TILE,
 	IS_SLIDING,
 	EMIT_MOVE,
-	MIMIC
+	ADD_TO_BUFFER
 }
 func moveType_to_string(type:MoveProperties = MoveProperties.ALLOW_SLIDING):
 	return MoveProperties.keys()[type].capitalize()
@@ -159,12 +159,15 @@ var _properties_default:Array = [
 	MoveProperties.ALLOW_SLIDING,
 	MoveProperties.CHECK_TILE,
 	MoveProperties.EMIT_MOVE,
+	MoveProperties.ADD_TO_BUFFER,
 ];
 
 # indexes of all moves made, will cap it at some point
 var buffer_moves:Array = []
 
 func move(direction:Vector2, properties:Array = _properties_default):
+	if properties.has(MoveProperties.ADD_TO_BUFFER):
+		buffer_moves.push_back(direction)
 	_last_direction = direction.normalized()
 		
 	prev_target_position = target_position
@@ -192,7 +195,7 @@ func tile_handle(direction:Vector2, properties:Array):
 		var allowed_walk = get_allow_walk(customData)
 		if not allowed_walk:
 			current_object_type = ObjectType.IMMOVABLE
-			move(-direction, [MoveProperties.CHECK_TILE])
+			move(-direction, [MoveProperties.CHECK_TILE, MoveProperties.EMIT_MOVE])
 		
 		if customData.get_custom_data("ice") and properties.has(MoveProperties.ALLOW_SLIDING) and not properties.has(MoveProperties.IS_SLIDING):
 			var calc = ice_calc(direction)

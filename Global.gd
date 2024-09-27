@@ -17,6 +17,13 @@ func _process(delta: float) -> void:
 	
 	if Input.is_action_just_pressed("Change_Player_Color"):
 		switch_cat()
+	if Input.is_action_just_pressed("UNDO"):
+		for object in BaseObject.get_all(get_tree().root):
+			var last_index = len(object.buffer_moves)-1
+			if last_index != -1:
+				var arrayItem = object.buffer_moves[last_index]
+				object.move(-arrayItem, [])
+				object.buffer_moves.remove_at(last_index)
 
 func switch_cat():
 		match Player.CURRENT_COLOR_TYPE:
