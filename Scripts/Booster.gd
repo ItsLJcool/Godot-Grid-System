@@ -5,6 +5,7 @@ extends "res://Scripts/BaseObject.gd"
 class_name Booster
 
 @onready var BoosterSpr:AnimatedSprite2D = $BoosterSpr
+@onready var delay:Timer =  $MoveObjDelay
 
 func on_color_type_change(value):
 	super(value)
@@ -55,5 +56,9 @@ func _process(delta: float) -> void:
 
 func on_object_move(directon:Vector2, properties:Array, object:BaseObject):
 	if object.GRID_POSITION == GRID_POSITION:
-		object.move(dir_to_vector()*2)
-		return
+		var _nextPos:Vector2 = dir_to_vector()*2
+		object.move(_nextPos, properties)
+		object.update_position_target.x -= _nextPos.x*object.tile_size.x
+		object.update_position_target.y -= _nextPos.y*object.tile_size.y
+		await get_tree().create_timer(delay.wait_time).timeout
+		object.update_position_target = object.target_position

@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://cv1nma0edl4dt"]
+
+[ext_resource type="Script" path="res://Scripts/Helpers/camera_positioner.gd" id="1_e6clv"]
+
+[node name="CameraPositioner" type="Camera2D"]
+zoom = Vector2(0.5, 0.5)
+script = ExtResource("1_e6clv")

@@ -25,6 +25,7 @@ var pushed:bool = false:
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	super()
+	Global.connect("after_player_move", after_player_move)
 	OBJECT_TYPE = ObjectType.PASSABLE
 	pass # Replace with function body.
 
@@ -34,17 +35,17 @@ func _process(delta: float) -> void:
 	super(delta)
 	pass
 
-func on_object_move(directon:Vector2, properties:Array, object:BaseObject):
-	if object.GRID_POSITION == GRID_POSITION:
+func after_player_move(dir:Vector2, player:Player):
+	pushed = false
+	
+	if player.GRID_POSITION == GRID_POSITION and player.COLOR_TYPE == COLOR_TYPE:
 		pushed = true
 		return
-	else:
-		pushed = false
-	for _object in get_all(get_tree().root):
-		if _object == self:
+	
+	for object in get_all(get_tree().root):
+		if object == self:
 			continue
-		if _object.GRID_POSITION == GRID_POSITION:
+		
+		if object.GRID_POSITION == GRID_POSITION and object.COLOR_TYPE == COLOR_TYPE:
 			pushed = true
 			return
-		else:
-			pushed = false

@@ -1,10 +1,11 @@
 @tool
 
+# Idk how I can implement this properly, but it should be based off player movement
+# if player moves, then it will move any item on Conveyer by a tile its facing, no more, no less
+
 extends "res://Scripts/BaseObject.gd"
 
 class_name Conveyer
-
-static var CAN_MOVE_ON:bool = true
 
 enum Direction {
 	LEFT = 0,
@@ -12,6 +13,8 @@ enum Direction {
 	UP = 2,
 	RIGHT = 3,
 }
+
+static var ALLOW_NEXT_MOVEMENT:bool = false
 
 @onready var ConveyerSpr:AnimatedSprite2D = $Spr
 
@@ -58,6 +61,7 @@ func dir_to_vector(dir:Direction = CONVEYER_DIRECTION):
 
 func _ready() -> void:
 	super()
+	Global.connect("before_player_move", before_player_move)
 	OBJECT_TYPE = ObjectType.PASSABLE
 	dir_booster()
 
@@ -66,13 +70,14 @@ func _process(delta: float) -> void:
 	super(delta)
 
 func force_to_target():
+	ALLOW_NEXT_MOVEMENT = false
 	super()
-	#Conveyer.CAN_MOVE_ON = true
 	
-func on_object_move(directon:Vector2, properties:Array, object:BaseObject):
-	if not Conveyer.CAN_MOVE_ON:
+#func on_object_move(directon:Vector2, properties:Array, object:BaseObject):
+
+func before_player_move(direction:Vector2, player:Player):
+	if ALLOW_NEXT_MOVEMENT:
 		return
-	
-	if object.GRID_POSITION == GRID_POSITION:
-		object.move(dir_to_vector())
-		Conveyer.CAN_MOVE_ON = false
+	if (player.GRID_POSITION+direction) == GRID_POSITION:
+		player.move(dir_to_vector())
+		ALLOW_NEXT_MOVEMENT = true

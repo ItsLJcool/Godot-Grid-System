@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://drsnnn0n27nxa"
-path="res://.godot/imported/Door Locked.png-dabb205583d7afef7fe0408835e72536.ctex"
+uid="uid://ccnybxun68m6n"
+path="res://.godot/imported/Open_door1.png-f0ea45168e9c508d6f63a491d554501f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Button/Door Locked.png"
-dest_files=["res://.godot/imported/Door Locked.png-dabb205583d7afef7fe0408835e72536.ctex"]
+source_file="res://Assets/Door/Open_door1.png"
+dest_files=["res://.godot/imported/Open_door1.png-f0ea45168e9c508d6f63a491d554501f.ctex"]
 
 [params]
 

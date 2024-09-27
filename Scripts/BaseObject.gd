@@ -88,7 +88,7 @@ var tile_size:Vector2i:
 
 var target_position:Vector2 = Vector2.ZERO:
 	set(value):
-		target_position = value;
+		target_position = value
 		if TileLayer != null:
 			GRID_POSITION = TileLayer.local_to_map(TileLayer.to_local(target_position))
 	get:
@@ -109,16 +109,18 @@ var GRID_POSITION:Vector2:
 
 func _ready() -> void:
 	on_color_type_change(COLOR_TYPE)
-	for all_grid_pos in TileLayer.get_used_cells():
-		var _data = TileLayer.get_cell_tile_data(all_grid_pos)
-		var _color = _data.get_custom_data("ColorType")
-		if _data.material != null:
-			_data.material.set_shader_parameter("r", COLOR_VALUES.get(color_type_to_string(_color)))
+	if TileLayer != null:
+		for all_grid_pos in TileLayer.get_used_cells():
+			var _data = TileLayer.get_cell_tile_data(all_grid_pos)
+			var _color = _data.get_custom_data("ColorType")
+			if _data.material != null:
+				_data.material.set_shader_parameter("r", COLOR_VALUES.get(color_type_to_string(_color)))
 	
 	Global.connect("on_object_move", on_object_move)
 	Global.connect("force_to_target", force_to_target)
 	target_position = position
 	prev_target_position = target_position
+	update_position_target = target_position
 
 func _process(delta: float) -> void:
 	if Engine.is_editor_hint():
@@ -129,7 +131,7 @@ func _process(delta: float) -> void:
 		position = target_position
 		return
 	
-	position = lerp(position, target_position, delta*move_speed)
+	update_to_position(delta)
 
 func move_towards_target(current_position: Vector2, target_position: Vector2, speed: float) -> Vector2:
 	var direction = (target_position - current_position).normalized()
@@ -137,6 +139,11 @@ func move_towards_target(current_position: Vector2, target_position: Vector2, sp
 	if current_position.distance_to(target_position) < speed:
 		new_position = target_position
 	return new_position
+
+var update_position_target:Vector2 = target_position
+
+func update_to_position(delta:float):
+	position = move_towards_target(position, update_position_target, move_speed)
 
 enum MoveProperties {
 	ALLOW_SLIDING,
@@ -161,8 +168,11 @@ func move(direction:Vector2, properties:Array = _properties_default):
 	_last_direction = direction.normalized()
 		
 	prev_target_position = target_position
+	
 	target_position.x += direction.x * tile_size.x
 	target_position.y += direction.y * tile_size.y
+	
+	update_position_target = target_position
 	
 	if properties.has(MoveProperties.CHECK_TILE):
 		tile_handle(_last_direction, properties)
@@ -230,8 +240,7 @@ func ice_calc(direction:Vector2) -> Vector2:
 	return final_calc
 
 func get_allow_walk(data):
-	var is_bad = data.get_custom_data("ColorType") != ColorType.Black
-	return (is_bad) or COLOR_TYPE == ColorType.White or data.get_custom_data("ColorType") == ColorType.White
+	return data.get_custom_data("ColorType") != ColorType.Black
 
 func force_to_target():
 	position = target_position
@@ -247,7 +256,7 @@ func on_object_move(directon:Vector2, properties:Array, object:BaseObject):
 		if customData.get_custom_data("ice"):
 			properties = properties.filter(func(item): return item != MoveProperties.ALLOW_SLIDING)
 	
-	if object.COLOR_TYPE != COLOR_TYPE and COLOR_TYPE != ColorType.White:
+	if object.COLOR_TYPE != COLOR_TYPE and COLOR_TYPE != ColorType.White and object.OBJECT_TYPE != ObjectType.PASSABLE:
 		if object.COLOR_TYPE != ColorType.White:
 			current_object_type = ObjectType.IMMOVABLE
 	

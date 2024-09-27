@@ -23,3 +23,7 @@ sprite_frames = ExtResource("1_5k2fa")
 animation = &"anim"
 autoplay = "anim"
 frame_progress = 0.0324609
+
+[node name="MoveObjDelay" type="Timer" parent="."]
+wait_time = 0.15
+one_shot = true
