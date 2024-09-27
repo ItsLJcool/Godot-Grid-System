@@ -1,0 +1,53 @@
+[gd_scene load_steps=8 format=4 uid="uid://qntn7uek8a83"]
+
+[ext_resource type="TileSet" uid="uid://cmsv26kv5susb" path="res://TileSet/temp_tileset.tres" id="1_80ni0"]
+[ext_resource type="PackedScene" uid="uid://cr6agib8ngtlg" path="res://Scenes/Objects/Player.tscn" id="2_g0d50"]
+[ext_resource type="PackedScene" uid="uid://cv1nma0edl4dt" path="res://Scenes/CameraPositioner.tscn" id="3_sw1vb"]
+[ext_resource type="PackedScene" uid="uid://d4il5lhwbt66h" path="res://Scenes/LevelTransition.tscn" id="4_x0ctf"]
+[ext_resource type="PackedScene" uid="uid://bhr5l51d1esfh" path="res://Scenes/Objects/Door.tscn" id="5_xrer7"]
+[ext_resource type="PackedScene" uid="uid://bu0unq81b2vgf" path="res://Scenes/Objects/Button.tscn" id="6_dx8oc"]
+[ext_resource type="PackedScene" uid="uid://diptveir4qnpk" path="res://Scenes/Objects/Yarn.tscn" id="7_ygqri"]
+
+[node name="Template" type="Node2D"]
+
+[node name="Important" type="Node2D" parent="."]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="Important"]
+tile_map_data = PackedByteArray("AAAAAP//AAAAAAcABAD/////AAAAAAcAAAD//wAAAAAAAAcAAAAAAAAAAAAAAAcABAD5//z/AAAAAAcAAAD5//3/AAAAAAcABAD5//7/AAAAAAcAAAD5////AAAAAAcAAAD5/wAAAAAAAAcAAAD5/wEAAAAAAAcAAAD5/wIAAAAAAAcAAAD5/wMAAAAAAAcAAAD6//z/AAAAAAcAAAD6//3/AAAAAAcABAD6//7/AAAAAAcAAAD6////AAAAAAcAAAD6/wAAAAAAAAcAAAD6/wEAAAAAAAcAAAD6/wIAAAAAAAcAAAD6/wMAAAAAAAcABAD7//z/AAAAAAcAAAD7//3/AAAAAAcAAAD7//7/AAAAAAcAAAD7////AAAAAAcAAAD7/wAAAAAAAAcABAD7/wEAAAAAAAcAAAD7/wMAAAAAAAcAAAD8//z/AAAAAAcABAD8//3/AAAAAAcABAD8//7/AAAAAAcABAD8////AAAAAAcAAAD8/wAAAAAAAAcABAD8/wIAAAAAAAcAAAD8/wMAAAAAAAcAAAD9//z/AAAAAAcAAAD9//3/AAAAAAcABAD9//7/AAAAAAcABAD9////AAAAAAcAAAD9/wAAAAAAAAcABAD9/wEAAAAAAAcABAD9/wIAAAAAAAcABAD9/wMAAAAAAAcABAD+//z/AAAAAAcAAAD+//3/AAAAAAcAAAD+//7/AAAAAAcAAAD+////AAAAAAcAAAD+/wAAAAAAAAcAAAD+/wEAAAAAAAcAAAD+/wIAAAAAAAcAAAD+/wMAAAAAAAcAAAD///z/AAAAAAcAAAD///3/AAAAAAcAAAD///7/AAAAAAcAAAD//wEAAAAAAAcAAAD//wIAAAAAAAcAAAD//wMAAAAAAAcAAAAAAPz/AAAAAAcABAAAAP3/AAAAAAcABAAAAP7/AAAAAAcABAAAAAEAAAAAAAcABAAAAAIAAAAAAAcAAAAAAAMAAAAAAAcAAAABAPz/AAAAAAcABAABAP3/AAAAAAcAAAABAP7/AAAAAAcAAAABAP//AAAAAAcAAAABAAAAAAAAAAcABAABAAEAAAAAAAcABAABAAMAAAAAAAcAAAACAPz/AAAAAAcAAAACAP3/AAAAAAcAAAACAP7/AAAAAAcAAAACAP//AAAAAAcAAAACAAAAAAAAAAcABAACAAEAAAAAAAcAAAACAAMAAAAAAAcAAAADAPz/AAAAAAcAAAADAP3/AAAAAAcAAAADAP7/AAAAAAcAAAADAP//AAAAAAcAAAADAAAAAAAAAAcAAAADAAEAAAAAAAcAAAADAAIAAAAAAAcAAAADAAMAAAAAAAcAAAAEAPz/AAAAAAcABAAEAP7/AAAAAAcABAAEAP//AAAAAAcABAAEAAAAAAAAAAcABAAEAAEAAAAAAAcABAAEAAIAAAAAAAcABAAEAAMAAAAAAAcABAAFAPz/AAAAAAcABAAFAP3/AAAAAAcAAAAFAP7/AAAAAAcAAAAFAP//AAAAAAcAAAAFAAAAAAAAAAcAAAAFAAEAAAAAAAcAAAAFAAIAAAAAAAcAAAAFAAMAAAAAAAcAAAAGAPz/AAAAAAcABAAGAP3/AAAAAAcAAAAGAP7/AAAAAAcAAAAGAP//AAAAAAcAAAAGAAAAAAAAAAcAAAAGAAEAAAAAAAcAAAAGAAIAAAAAAAcAAAAGAAMAAAAAAAcAAAD4//v/AAAAAAcABAD5//v/AAAAAAcABAD6//v/AAAAAAcABAD7//v/AAAAAAcABAD8//v/AAAAAAcABAD9//v/AAAAAAcABAD+//v/AAAAAAcABAD///v/AAAAAAcABAAAAPv/AAAAAAcABAABAPv/AAAAAAcABAACAPv/AAAAAAcABAADAPv/AAAAAAcABAAEAPv/AAAAAAcABAAFAPv/AAAAAAcABAAGAPv/AAAAAAcABAAHAPv/AAAAAAcABAAHAPz/AAAAAAcABAAHAP3/AAAAAAcABAAHAP7/AAAAAAcABAAHAP//AAAAAAcABAAHAAAAAAAAAAcABAAHAAEAAAAAAAcABAAHAAIAAAAAAAcABAAHAAMAAAAAAAcAAAAHAAQAAAAAAAcABAAGAAQAAAAAAAcABAAFAAQAAAAAAAcABAAEAAQAAAAAAAcABAADAAQAAAAAAAcABAACAAQAAAAAAAcABAABAAQAAAAAAAcABAAAAAQAAAAAAAcABAD4/wMAAAAAAAcABAD4/wQAAAAAAAcABAD5/wQAAAAAAAcABAD6/wQAAAAAAAcABAD7/wQAAAAAAAcABAD8/wQAAAAAAAcABAD9/wQAAAAAAAcABAD+/wQAAAAAAAcABAD//wQAAAAAAAcABAD4/wIAAAAAAAcABAD4/wEAAAAAAAcABAD4/wAAAAAAAAcABAD4////AAAAAAcABAD4//7/AAAAAAcABAD4//3/AAAAAAcABAD4//z/AAAAAAcAAAAIAAMAAAAAAAcAAAAIAAIAAAAAAAcABAAJAAIAAAAAAAcABAAJAAMAAAAAAAcABAAJAAQAAAAAAAcABAAIAAQAAAAAAAcABAD3//3/AAAAAAcABAD2//3/AAAAAAcABAD2//z/AAAAAAcABAD2//v/AAAAAAcABAD3//v/AAAAAAcABAD3//z/AAAAAAcAAAAEAP3/AAAAAAcAAAABAAIAAAAAAAcAAAACAAIAAAAAAAcAAAD8/wEAAAAAAAcAAAD7/wIAAAAAAAcAAAA=")
+tile_set = ExtResource("1_80ni0")
+
+[node name="Player" parent="Important" node_paths=PackedStringArray("TileLayer") instance=ExtResource("2_g0d50")]
+position = Vector2(1024, 384)
+MOVE_DIRECTION_ON_START = Vector2(-1, 0)
+TileLayer = NodePath("../TileMapLayer")
+
+[node name="CameraPositioner" parent="Important" instance=ExtResource("3_sw1vb")]
+zoom = Vector2(0.625, 0.6)
+
+[node name="LevelTransition" parent="Important" instance=ExtResource("4_x0ctf")]
+position = Vector2(-1152, -512)
+
+[node name="ExitDoor" parent="." node_paths=PackedStringArray("ButtonReference", "TileLayer") instance=ExtResource("5_xrer7")]
+position = Vector2(-768, -512)
+ButtonReference = NodePath("../ExitButton")
+TileLayer = NodePath("../Important/TileMapLayer")
+
+[node name="ExitButton" parent="." node_paths=PackedStringArray("TileLayer") instance=ExtResource("6_dx8oc")]
+position = Vector2(-384, -512)
+TileLayer = NodePath("../Important/TileMapLayer")
+
+[node name="YarnObj" parent="." node_paths=PackedStringArray("TileLayer") instance=ExtResource("7_ygqri")]
+position = Vector2(512, -384)
+TileLayer = NodePath("../Important/TileMapLayer")
+
+[node name="YarnObj2" parent="." node_paths=PackedStringArray("TileLayer") instance=ExtResource("7_ygqri")]
+position = Vector2(640, -384)
+TileLayer = NodePath("../Important/TileMapLayer")
+
+[node name="YarnObj3" parent="." node_paths=PackedStringArray("TileLayer") instance=ExtResource("7_ygqri")]
+position = Vector2(384, 256)
+TileLayer = NodePath("../Important/TileMapLayer")
+
+[node name="YarnObj4" parent="." node_paths=PackedStringArray("TileLayer") instance=ExtResource("7_ygqri")]
+position = Vector2(-640, 256)
+TileLayer = NodePath("../Important/TileMapLayer")

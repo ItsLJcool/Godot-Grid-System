@@ -14,9 +14,8 @@ enum Direction {
 	RIGHT = 3,
 }
 
-static var ALLOW_NEXT_MOVEMENT:bool = false
-
 @onready var ConveyerSpr:AnimatedSprite2D = $Spr
+@onready var delay:Timer = $MoveObjDelay
 
 func on_color_type_change(value):
 	super(value)
@@ -61,23 +60,17 @@ func dir_to_vector(dir:Direction = CONVEYER_DIRECTION):
 
 func _ready() -> void:
 	super()
-	Global.connect("before_player_move", before_player_move)
 	OBJECT_TYPE = ObjectType.PASSABLE
 	dir_booster()
 
-
 func _process(delta: float) -> void:
 	super(delta)
-
-func force_to_target():
-	ALLOW_NEXT_MOVEMENT = false
-	super()
 	
-#func on_object_move(directon:Vector2, properties:Array, object:BaseObject):
-
-func before_player_move(direction:Vector2, player:Player):
-	if ALLOW_NEXT_MOVEMENT:
-		return
-	if (player.GRID_POSITION+direction) == GRID_POSITION:
-		player.move(dir_to_vector())
-		ALLOW_NEXT_MOVEMENT = true
+func on_object_move(directon:Vector2, properties:Array, object:BaseObject):
+	if object.GRID_POSITION == GRID_POSITION:
+		var _nextPos = dir_to_vector()
+		object.move(_nextPos)
+		#object.update_position_target.x -= _nextPos.x*object.tile_size.x
+		#object.update_position_target.y -= _nextPos.y*object.tile_size.y
+		#await get_tree().create_timer(delay.wait_time).timeout
+		#object.update_position_target = object.target_position

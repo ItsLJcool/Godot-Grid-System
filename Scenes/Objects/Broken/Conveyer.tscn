@@ -21,9 +21,9 @@ material = SubResource("ShaderMaterial_ygafe")
 sprite_frames = ExtResource("2_akry8")
 animation = &"horizontal"
 autoplay = "horizontal"
-frame_progress = 0.330664
+frame_progress = 0.934143
 centered = false
 
 [node name="MoveObjDelay" type="Timer" parent="."]
-wait_time = 0.15
+wait_time = 0.5
 one_shot = true

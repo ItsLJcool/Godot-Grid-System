@@ -67,4 +67,4 @@ TileLayer = NodePath("../Important/TileMapLayer")
 [node name="Player" parent="." node_paths=PackedStringArray("TileLayer") instance=ExtResource("1_547cr")]
 position = Vector2(-256, 640)
 COLOR_TYPE = 2
-TileLayer = NodePath("../Important/TileMapLayer")
+TileLayer = NodePath("")

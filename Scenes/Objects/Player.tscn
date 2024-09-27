@@ -20,6 +20,7 @@ Pink = ExtResource("5_bjdc3")
 TileLayer = NodePath("")
 
 [node name="Cat" type="Sprite2D" parent="."]
+z_index = 2048
 texture = ExtResource("2_g7a6r")
 centered = false
 

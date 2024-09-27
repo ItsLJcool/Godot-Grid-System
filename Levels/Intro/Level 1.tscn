@@ -1,0 +1,43 @@
+[gd_scene load_steps=8 format=4 uid="uid://c4y8yjcyqgts5"]
+
+[ext_resource type="TileSet" uid="uid://cmsv26kv5susb" path="res://TileSet/temp_tileset.tres" id="1_oojtj"]
+[ext_resource type="PackedScene" uid="uid://cr6agib8ngtlg" path="res://Scenes/Objects/Player.tscn" id="2_rh14w"]
+[ext_resource type="PackedScene" uid="uid://cv1nma0edl4dt" path="res://Scenes/CameraPositioner.tscn" id="3_hoiyp"]
+[ext_resource type="PackedScene" uid="uid://d4il5lhwbt66h" path="res://Scenes/LevelTransition.tscn" id="4_k8637"]
+[ext_resource type="PackedScene" uid="uid://bu0unq81b2vgf" path="res://Scenes/Objects/Button.tscn" id="5_kkplm"]
+[ext_resource type="PackedScene" uid="uid://diptveir4qnpk" path="res://Scenes/Objects/Yarn.tscn" id="6_akhmj"]
+[ext_resource type="PackedScene" uid="uid://bhr5l51d1esfh" path="res://Scenes/Objects/Door.tscn" id="7_gcx8s"]
+
+[node name="Template" type="Node2D"]
+
+[node name="Important" type="Node2D" parent="."]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="Important"]
+tile_map_data = PackedByteArray("AAAAAP//AAAAAAcAAAD/////AAAAAAcAAAD//wAAAAAAAAcAAAAAAAAAAAAAAAcAAAD5//z/AAAAAAcABAD5//3/AAAAAAcABAD5//7/AAAAAAcABAD5////AAAAAAcABAD5/wAAAAAAAAcAAAD5/wEAAAAAAAcABAD5/wIAAAAAAAcABAD5/wMAAAAAAAcABAD6//z/AAAAAAcABAD6//3/AAAAAAcABAD6//7/AAAAAAcABAD6////AAAAAAcABAD6/wAAAAAAAAcAAAD6/wEAAAAAAAcABAD6/wIAAAAAAAcABAD6/wMAAAAAAAcABAD7//z/AAAAAAcABAD7//3/AAAAAAcAAAD7//7/AAAAAAcAAAD7////AAAAAAcAAAD7/wAAAAAAAAcAAAD7/wEAAAAAAAcAAAD7/wIAAAAAAAcAAAD7/wMAAAAAAAcABAD8//z/AAAAAAcABAD8//3/AAAAAAcAAAD8//7/AAAAAAcAAAD8////AAAAAAcAAAD8/wAAAAAAAAcAAAD8/wEAAAAAAAcAAAD8/wIAAAAAAAcAAAD8/wMAAAAAAAcABAD9//z/AAAAAAcABAD9//3/AAAAAAcAAAD9//7/AAAAAAcAAAD9////AAAAAAcAAAD9/wAAAAAAAAcAAAD9/wEAAAAAAAcAAAD9/wIAAAAAAAcAAAD9/wMAAAAAAAcABAD+//z/AAAAAAcABAD+//3/AAAAAAcAAAD+//7/AAAAAAcAAAD+////AAAAAAcAAAD+/wAAAAAAAAcAAAD+/wEAAAAAAAcAAAD+/wIAAAAAAAcAAAD+/wMAAAAAAAcABAD///z/AAAAAAcABAD///3/AAAAAAcAAAD///7/AAAAAAcAAAD//wEAAAAAAAcAAAD//wIAAAAAAAcAAAD//wMAAAAAAAcABAAAAPz/AAAAAAcABAAAAP3/AAAAAAcAAAAAAP7/AAAAAAcAAAAAAAEAAAAAAAcAAAAAAAIAAAAAAAcAAAAAAAMAAAAAAAcABAABAPz/AAAAAAcABAABAP3/AAAAAAcAAAABAP7/AAAAAAcAAAABAP//AAAAAAcAAAABAAAAAAAAAAcAAAABAAEAAAAAAAcAAAABAAIAAAAAAAcAAAABAAMAAAAAAAcABAACAPz/AAAAAAcABAACAP3/AAAAAAcAAAACAP7/AAAAAAcAAAACAP//AAAAAAcAAAACAAAAAAAAAAcAAAACAAEAAAAAAAcAAAACAAIAAAAAAAcAAAACAAMAAAAAAAcABAADAPz/AAAAAAcABAADAP3/AAAAAAcAAAADAP7/AAAAAAcAAAADAP//AAAAAAcAAAADAAAAAAAAAAcAAAADAAEAAAAAAAcAAAADAAIAAAAAAAcAAAADAAMAAAAAAAcABAAEAPz/AAAAAAcABAAEAP3/AAAAAAcAAAAEAP7/AAAAAAcAAAAEAP//AAAAAAcAAAAEAAAAAAAAAAcAAAAEAAEAAAAAAAcAAAAEAAIAAAAAAAcAAAAEAAMAAAAAAAcABAAFAPz/AAAAAAcABAAFAP3/AAAAAAcAAAAFAP7/AAAAAAcAAAAFAP//AAAAAAcAAAAFAAAAAAAAAAcAAAAFAAEAAAAAAAcAAAAFAAIAAAAAAAcAAAAFAAMAAAAAAAcABAAGAPz/AAAAAAcABAAGAP3/AAAAAAcABAAGAP7/AAAAAAcABAAGAP//AAAAAAcABAAGAAAAAAAAAAcAAAAGAAEAAAAAAAcABAAGAAIAAAAAAAcABAAGAAMAAAAAAAcABAAHAAEAAAAAAAcABAAIAAEAAAAAAAcABAAIAAAAAAAAAAcABAAIAP//AAAAAAcABAAHAP//AAAAAAcABAAHAAAAAAAAAAcAAAD4/wAAAAAAAAcAAAD4////AAAAAAcABAD3////AAAAAAcABAD3/wAAAAAAAAcABAD3/wEAAAAAAAcABAD4/wEAAAAAAAcABAA=")
+tile_set = ExtResource("1_oojtj")
+
+[node name="Player" parent="Important" node_paths=PackedStringArray("TileLayer") instance=ExtResource("2_rh14w")]
+position = Vector2(896, 0)
+MOVE_DIRECTION_ON_START = Vector2(-1, 0)
+TileLayer = NodePath("../TileMapLayer")
+
+[node name="LevelTransition" parent="Important" instance=ExtResource("4_k8637")]
+position = Vector2(-1024, 0)
+LevelFileName = "Intro"
+NextLevel = "Level 2"
+
+[node name="CameraPositioner" parent="Important" instance=ExtResource("3_hoiyp")]
+zoom = Vector2(0.715, 0.75)
+
+[node name="Button" parent="." node_paths=PackedStringArray("TileLayer") instance=ExtResource("5_kkplm")]
+position = Vector2(-256, -256)
+TileLayer = NodePath("../Important/TileMapLayer")
+
+[node name="YarnObj" parent="." node_paths=PackedStringArray("TileLayer") instance=ExtResource("6_akhmj")]
+position = Vector2(256, 128)
+TileLayer = NodePath("../Important/TileMapLayer")
+
+[node name="Door" parent="." node_paths=PackedStringArray("ButtonReference", "TileLayer") instance=ExtResource("7_gcx8s")]
+position = Vector2(-768, 0)
+ButtonReference = NodePath("../Button")
+TileLayer = NodePath("../Important/TileMapLayer")
