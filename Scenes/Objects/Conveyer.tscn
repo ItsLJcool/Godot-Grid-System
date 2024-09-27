@@ -1,28 +1,29 @@
 [gd_scene load_steps=5 format=3 uid="uid://cg3fqgtyo1ooj"]
 
-[ext_resource type="Script" path="res://Scripts/Conveyer.gd" id="1_twamq"]
-[ext_resource type="SpriteFrames" uid="uid://bpun4enhgtecs" path="res://Assets/Conveyer/Conveyer.tres" id="2_akry8"]
-[ext_resource type="Shader" path="res://TileSet/Among Us Shader.gdshader" id="2_na0lg"]
+[ext_resource type="Script" path="res://Scripts/Conveyer.gd" id="1_srcii"]
+[ext_resource type="Shader" path="res://TileSet/Among Us Shader.gdshader" id="2_c02gu"]
+[ext_resource type="SpriteFrames" uid="uid://bpun4enhgtecs" path="res://Assets/Conveyer/Conveyer.tres" id="3_aalum"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ygafe"]
 resource_local_to_scene = true
-shader = ExtResource("2_na0lg")
+shader = ExtResource("2_c02gu")
 shader_parameter/r = Color(0.875, 0.592, 0.149, 1)
 shader_parameter/g = Color(1, 1, 1, 1)
 shader_parameter/b = Color(0, 0, 0, 1)
 
-[node name="Conveyer" type="Node2D"]
-script = ExtResource("1_twamq")
+[node name="Conveyer" type="Node2D" node_paths=PackedStringArray("TileLayer")]
+script = ExtResource("1_srcii")
 OBJECT_TYPE = 2
+TileLayer = NodePath("")
 
 [node name="Spr" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_ygafe")
-sprite_frames = ExtResource("2_akry8")
+sprite_frames = ExtResource("3_aalum")
 animation = &"horizontal"
 autoplay = "horizontal"
-frame_progress = 0.963999
+frame_progress = 0.934143
 centered = false
 
 [node name="MoveObjDelay" type="Timer" parent="."]
-wait_time = 0.15
+wait_time = 0.5
 one_shot = true
